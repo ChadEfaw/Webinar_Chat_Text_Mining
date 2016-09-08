@@ -1,0 +1,79 @@
+# Chad Efaw
+# Maher & Maher, LLC
+# Text mining of webinar chats 
+# September 2016
+
+# Install the appropriate libraries 
+
+install.packages("tm")
+library(tm)
+
+# Press "Shift" and right-click to 'Copy as Path' 
+# Add one (1) additiona backwards slash '\'
+# This will call the csv of webinar comments and name it 'text'
+
+text <- read.csv("C:\\Users\\Chad Efaw\\Desktop\\webinar_text_analysis.csv", stringsAsFactors = FALSE)
+
+# Create an object that hold the column you want to analyze
+# 'text' is the date and after '$' is the appropriate column
+
+chat_source <- VectorSource(text$Comment)
+
+# A corpus is a container for the object 
+
+corpus <- Corpus(chat_source)
+
+# Cleaning
+# Reduce all words to lower case
+# Remove punctuation
+# Remove whitespace 
+# Remove common English words that will skew the data
+
+corpus <- tm_map(corpus, content_transformer(tolower))
+corpus <- tm_map(corpus, removePunctuation)
+corpus <- tm_map(corpus, stripWhitespace)
+corpus <- tm_map(corpus, removeWords, stopwords("english"))
+
+# Put the corpus into a matrix 
+
+dtm <- DocumentTermMatrix(corpus)
+dtm2 <- as.matrix(dtm)
+
+# This will calculate the frequency of terms 
+
+frequency <- colSums(dtm2)
+
+# This will reverse the order from largest to smallest 
+
+frequency <- sort(frequency, decreasing=TRUE)
+
+# This will remove Na's 
+
+frequency <- frequency[!is.na(frequency)]
+
+# This will produce the top six (6) rows
+# Below are alternative options. 
+# Remove '#' before line of code to view 
+
+head(frequency)
+
+# View top-10
+
+# head(frequency, n=10)
+
+# View top-20
+
+# head(frequency, n=20)
+
+# View top-50
+
+# head(frequency, n=50)
+
+# View top-100
+
+# head(frequency, n=100
+
+# This will write the output to a csv file
+
+write.table(frequency, file="webinar_freq.csv",sep = ",")
+
