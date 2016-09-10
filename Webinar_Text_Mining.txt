@@ -12,7 +12,7 @@ library(tm)
 # Add one (1) additional backwards slash '\'
 # This will call the csv of webinar comments and name it 'text'
 
-text <- read.csv("C:\\Users\\Chad Efaw\\Desktop\\webinar_text_analysis.csv", stringsAsFactors = FALSE)
+text <- read.csv("Enter Path to file you want to view", stringsAsFactors = FALSE)
 
 # Create an object that hold the column you want to analyze
 # 'text' is the date and after '$' is the appropriate column
